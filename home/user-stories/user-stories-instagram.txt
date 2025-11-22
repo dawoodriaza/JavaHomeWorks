@@ -1,0 +1,43 @@
+Feature: Story Reactions on Instagram
+
+User Story 1:
+As a user i want to react to my friend's story using emojis so that i can quickly express my feelings.
+
+Acceptance Criteria:
+ 1) Given i am viewing a friend's story when I tap the reaction button then i should see a list of available emojis.
+ 2 ) given i select an emoji when i tap send then the story owner should receive my reaction immediatly.
+
+
+User Story 2:
+As a story owner, i want to see who reacted to my story so that i can understand my audience's engagement.
+
+Acceptance Criteria:
+1) Given someone reacts to my story when i open the viewers list then i should see the emoji each person used.
+
+2)Given multiple users reacted when i check my notifications then i shoultd see a summary of all reactions.
+
+
+User Story 3:
+As a user, i want to remove my reaction so that i can change my emoji if i made a mistake.
+
+Acceptance Criteria:
+1) given i have already reacted to a story when i long-press my emoji then i should see an option to delete or replace it.
+2) Given i delete my reaction when I confirm removal then the reaction should disappear from the story owner's view.
+
+
+User Story 4:
+As a user i want to receive a notification when someone reacts to my story so that I can stay updated on interactions.
+
+Acceptance Criteria:
+1) Given another user reacts to my story when I open Instagram then i should see a notification about the new reaction.
+
+2) given i tap the notification when it opens then i should be taken directly to that story's viewer list.
+
+
+User Story 5:
+As a user i want reactions to disappear when my story expires so that my old stories don't clutter my profile.
+
+Acceptance Criteria:
+1) Given my story reaches 24 hours when it automatically expires then all reactions related to that story should be removed.
+
+2_ Given i save my story to Highlighst when I open it later then I should still be able to see past reactions in the highlight view.
