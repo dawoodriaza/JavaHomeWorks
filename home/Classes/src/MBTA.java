@@ -19,7 +19,7 @@ public class MBTA {
         i = stations.get(line1).indexOf(station1);
         j= stations.get(line1).indexOf(station2);
         if(i <= j){
-            for(int k = i; k <= j; k++){
+            for(int k = i+1; k <= j; k++){
                 System.out.println("Rider at " + stations.get(line1).get(k));
             }
         } else {
@@ -32,7 +32,7 @@ public class MBTA {
 
         int line1parkStreetStation = stations.get(line1).indexOf("park street");
         if(i <= j){
-            for(int k = i; k <= line1parkStreetStation; k++){
+            for(int k = i+1; k <= line1parkStreetStation; k++){
                 System.out.println("Rider at " + stations.get(line1).get(k));
             }
         } else {
@@ -45,7 +45,7 @@ public class MBTA {
         int line2parkStreetStation = stations.get(line2).indexOf("park street");
         j = Math.abs(stations.get(line2).indexOf(station2) - line2parkStreetStation);
         if(i <= j){
-            for(int k = i; k <= line2parkStreetStation; k++){
+            for(int k = i+1; k <= line2parkStreetStation; k++){
                 System.out.println("Rider at " + stations.get(line1).get(k));
             }
         } else {
