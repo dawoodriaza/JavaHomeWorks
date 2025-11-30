@@ -1,10 +1,7 @@
 package com.ga.Optionals;
 
-import com.ga.Optionals.Employee;
-
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +43,7 @@ public class Main {
         LocalDate date= LocalDate.of(2012,1,1);
 
         List<String> employeesName = employees.stream().filter(emp-> !emp.getHireDate().isBefore(date)).map(Employee::getName).toList();
-        // printList(employees);
+        printList(employees);
     }
 
     public void getMaxSalary() {
@@ -77,7 +74,11 @@ public class Main {
 
     public void getMaximumPaidEmployee() {
         // TODO use the reduce() operation to find the Employee instance of the employees list with the highest salary:
-        Employee highest = employees.stream().max(Comparator.comparingDouble(Employee::getSalary)).orElse(null);
+    Employee highest = employees.stream()
+        .reduce((employee1, employee2) ->
+            employee1.getSalary() >= employee2.getSalary() ? employee1 : employee2
+        )
+        .orElse(null);
          System.out.println(highest);
     }
 
