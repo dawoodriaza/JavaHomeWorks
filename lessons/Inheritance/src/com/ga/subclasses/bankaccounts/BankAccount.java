@@ -2,8 +2,7 @@ package com.ga.subclasses.bankaccounts;
 
 public class BankAccount {
     protected double currentBalance;
-
-protected double interestRate = 0.02;
+    protected double interestRate = 0.02;
 
     public BankAccount(double currentBalance) {
         this.currentBalance =currentBalance;
