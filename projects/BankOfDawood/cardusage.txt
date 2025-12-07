@@ -1,0 +1,2 @@
+userName, cardType , todayWithdrawTotal , todayTransferTotal , todayOwnTransferTotal , todayDepositTotal , todayOwnDepositTotal 
+DawoodRiaz,PlatinumCard,90.0,0.0,0.0,90000.0,0.0

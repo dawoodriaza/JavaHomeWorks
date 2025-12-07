@@ -1,0 +1,2 @@
+UserName , Name, Email , CPR , DateOfBirth , Password , SecretKey , InitialAmount , SavingCard , CheckingCard 
+DawoodRiaz,990806570,990806570,990806570,1999-08-11,jX23B0pCnzSzfrDowy0DGA==,WVCkDBHceV3echcct3jUNQ==,0.0,PlatinumCard,StandardMastercard

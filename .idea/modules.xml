@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/home/Abstraction/Abstraction.iml" filepath="$PROJECT_DIR$/home/Abstraction/Abstraction.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lessons/Animal/Animal.iml" filepath="$PROJECT_DIR$/lessons/Animal/Animal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/projects/BankOfDawood/BankOfDawood.iml" filepath="$PROJECT_DIR$/projects/BankOfDawood/BankOfDawood.iml" />
+      <module fileurl="file://$PROJECT_DIR$/home/Classes/Classes.iml" filepath="$PROJECT_DIR$/home/Classes/Classes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lessons/CollectionsJava/CollectionsJava.iml" filepath="$PROJECT_DIR$/lessons/CollectionsJava/CollectionsJava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lessons/Encapsulation/Encapsulation.iml" filepath="$PROJECT_DIR$/lessons/Encapsulation/Encapsulation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lessons/Inheritance/Inheritance.iml" filepath="$PROJECT_DIR$/lessons/Inheritance/Inheritance.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lessons/JavaBasics/JavaBasics/JavaBasics.iml" filepath="$PROJECT_DIR$/lessons/JavaBasics/JavaBasics/JavaBasics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lessons/JavaCollections/JavaCollections.iml" filepath="$PROJECT_DIR$/lessons/JavaCollections/JavaCollections.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lessons/JavaTDD/JavaTDD.iml" filepath="$PROJECT_DIR$/lessons/JavaTDD/JavaTDD.iml" />
+      <module fileurl="file://$PROJECT_DIR$/home/OptionalHomeworks/OptionalHomeworks.iml" filepath="$PROJECT_DIR$/home/OptionalHomeworks/OptionalHomeworks.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lessons/Optionals/Optionals.iml" filepath="$PROJECT_DIR$/lessons/Optionals/Optionals.iml" />
+      <module fileurl="file://$PROJECT_DIR$/projects/Prpject1/Prpject1.iml" filepath="$PROJECT_DIR$/projects/Prpject1/Prpject1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/home/datacollections/datacollections.iml" filepath="$PROJECT_DIR$/home/datacollections/datacollections.iml" />
+      <module fileurl="file://$PROJECT_DIR$/home/inheritence/inheritence.iml" filepath="$PROJECT_DIR$/home/inheritence/inheritence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/jdb.iml" filepath="$PROJECT_DIR$/.idea/jdb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lessons/labs/labs.iml" filepath="$PROJECT_DIR$/lessons/labs/labs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lessons/lambda/lambda.iml" filepath="$PROJECT_DIR$/lessons/lambda/lambda.iml" />
+      <module fileurl="file://$PROJECT_DIR$/home/methodAndscopes/methodAndscopes.iml" filepath="$PROJECT_DIR$/home/methodAndscopes/methodAndscopes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lessons/JavaBasics/untitled/untitled.iml" filepath="$PROJECT_DIR$/lessons/JavaBasics/untitled/untitled.iml" />
+    </modules>
+  </component>
+</project>

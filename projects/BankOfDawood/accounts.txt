@@ -1,0 +1,3 @@
+AccountType, CurrentAmount , OverDraftCount , AccountStatus 
+Dawood_SAVING,90.0,0,true
+DawoodRiaz_SAVING,90000.0,0,true
