@@ -13,12 +13,16 @@ public class StartingPoint {
     public static Map<String, Long> lockTimes = new HashMap<>();
     public static Map<String, Integer> wrongAttempts = new HashMap<>();
     public static BankOfDawood bank = new BankOfDawood();
+    public static Map<String, BankAdmin> admins = new HashMap<>();
+
     public static void main(String[] args) {
+
         FileLoaders.loadCustomers();
         FileLoaders.loadAccounts();
         FileLoaders.loadCards();
         FileLoaders.loadCardUsage();
         FileLoaders.loadOverdraftData();
+        FileLoaders.loadAdmins();
 
         Scanner input = new Scanner(System.in);
 
@@ -30,18 +34,17 @@ public class StartingPoint {
 
         System.out.println("loadedAccounts" + loadedAccounts);
 
-
         while (true) {
 
             System.out.println("Welcome to Bank Of Dawood");
             System.out.println("Press 1: To Login as customer");
             System.out.println("Press 2: To Login as bank");
             System.out.println("Press 3: To SignUp as customer");
+            System.out.println("Press 4: To SignUp as admin");
 
             int kbd = Integer.parseInt(input.nextLine());
 
             switch (kbd) {
-
 
                 case 1:
 
@@ -93,11 +96,8 @@ public class StartingPoint {
                     System.out.println("\nCustomer Login Successful");
 
                     Customer loggedIn = customers.get(usernameInput);
-/*
-*
-Customer Menu
-*
-* */
+                    fileMethods.showNotifications(loggedIn.getUserName());
+
                     while (true) {
 
                         System.out.println("Press 1: Create Account");
@@ -113,6 +113,7 @@ Customer Menu
                         System.out.println("Press 12: Convert Curreny");
                         System.out.println("Press 13: Check Cuurent Card");
                         System.out.println("Press 14: Filter Transactions");
+                        System.out.println("Press 15: Generate Pdf Transactions");
                         System.out.println("Press 9: ToLogOut");
 
                         int userChoice = Integer.parseInt(input.nextLine());
@@ -120,22 +121,25 @@ Customer Menu
                         switch (userChoice) {
 
                             case 1:
-                                System.out.println("Enter Account Type (SAVING / CHECKING)");
+                                System.out.println("Enter Account Type. Saving or checking)");
                                 String actType = input.nextLine();
                                 System.out.println("Enter Initial Deposit");
                                 double dep = Double.parseDouble(input.nextLine());
                                 bank.createAccount(loggedIn.getUserName(), actType, dep);
                                 break;
-                            case 14:
 
+                            case 14:
                                 bank.filterTransactions(loggedIn.getUserName());
                                 break;
+
                             case 2:
                                 System.out.println("Balance: " + bank.checkBalance(loggedIn.getUserName()));
                                 break;
+
                             case 13:
                                 bank.showMyCards(loggedIn.getUserName());
                                 break;
+
                             case 3:
                                 bank.withdrawAmount(loggedIn.getUserName());
                                 break;
@@ -159,16 +163,36 @@ Customer Menu
                             case 8:
                                 bank.viewCardDetails(loggedIn.getUserName());
                                 break;
+
                             case 10:
                                 bank.printStatemnt(loggedIn.getUserName());
                                 break;
-
 
                             case 11:
                                 System.out.println("\nCurrency Prices");
                                 Currencies.listCurrencyPrices();
                                 break;
 
+                            case 15:
+
+                                Account saving = bank.accounts.get(loggedIn.getUserName() + "_SAVING");
+                                Account checking = bank.accounts.get(loggedIn.getUserName() + "_CHECKING");
+
+                                double savingBal = saving == null ? 0 : saving.balance;
+                                double checkingBal = checking == null ? 0 : checking.balance;
+
+                                List<String> logs = FileLoaders.getUserLogs(loggedIn.getUserName());
+
+                                fileMethods.generateStatement(
+                                        loggedIn.getUserName(),
+                                        savingBal,
+                                        checkingBal,
+                                        logs
+                                );
+
+                                System.out.println("PDF Generated");
+
+                                break;
 
                             case 12:
                                 System.out.println("Enter amount you want to convert:");
@@ -176,7 +200,6 @@ Customer Menu
 
                                 String from = null;
                                 String to = null;
-
 
                                 while (true) {
                                     System.out.println("\nSelect Currency to convert FROM:");
@@ -238,13 +261,21 @@ Customer Menu
 
                                 Optional<Double> converted = Currencies.convert(amount, from, to);
 
-                                if (converted.isPresent()) {
-                                    System.out.println(amount + " " + from + " = "
-                                            + converted.get() + " " + to);
-                                } else {
-                                    System.out.println("Invalid currency type entered.");
-                                }
+//                                if (converted.isPresent()) {
+//                                    System.out.println(amount + " " + from + " = "
+//                                            + converted.get() + " " + to);
+//                                } else {
+//                                    System.out.println("Invalid currency type entered.");
+//                                }
+//                              Lambda method
+                                String finalFrom = from;
+                                String finalTo = to;
+                                converted.ifPresentOrElse(
+                                        value -> System.out.println(amount + " " + finalFrom + " = " + value + " " + finalTo),
+                                        () -> System.out.println("Invalid currency type entered.")
+                                );
                                 break;
+
                             case 9:
                                 System.out.println("Logged Out");
                                 break;
@@ -255,25 +286,41 @@ Customer Menu
 
                     break;
 
-
-
                 case 2:
+
                     System.out.println("Enter Username");
                     String adminUser = input.nextLine();
+
+                    if (!admins.containsKey(adminUser)) {
+                        System.out.println("No such admin.");
+                        break;
+                    }
+
                     System.out.println("Enter Password");
                     String adminPass = input.nextLine();
+
+                    BankAdmin adminAcc = admins.get(adminUser);
+
+                    if (!adminAcc.getPassword().equals(adminPass)) {
+                        System.out.println("Incorrect password.");
+                        break;
+                    }
+
                     System.out.println("\nAdmin Login Successful\n");
+
                     while (true) {
                         System.out.println("Press 1: View All Customers");
                         System.out.println("Press 2: View All Accounts");
-                        System.out.println("Press 3: View Log File");
+                        System.out.println("Press 3: View Log File of a User");
                         System.out.println("Press 4: Unblock User");
                         System.out.println("Press 5: Reset Customer Password");
                         System.out.println("Press 6: Exit Admin Menu");
+                        System.out.println("Press 7: Print Statement for a User");
 
                         int choice = Integer.parseInt(input.nextLine());
 
                         switch (choice) {
+
                             case 1:
                                 for (String s : customers.keySet()) System.out.println(s);
                                 break;
@@ -281,12 +328,11 @@ Customer Menu
                             case 2:
                                 for (String s : loadedAccounts.keySet()) System.out.println(s);
                                 break;
+
                             case 3:
-                                try {
-                                    File f = new File("log.txt");
-                                    Scanner fs = new Scanner(f);
-                                    while (fs.hasNextLine()) System.out.println(fs.nextLine());
-                                } catch (Exception e) {}
+                                System.out.println("Enter username to view logs:");
+                                String logUser = input.nextLine();
+                                fileMethods.printLogFile(logUser, "log.txt");
                                 break;
 
                             case 4:
@@ -325,6 +371,23 @@ Customer Menu
                                 }
                                 break;
 
+                            case 7:
+                                System.out.println("Enter username for statement:");
+                                String stmtUser = input.nextLine();
+
+                                Account saving = bank.accounts.get(stmtUser + "_SAVING");
+                                Account checking = bank.accounts.get(stmtUser + "_CHECKING");
+
+                                double savingBal = saving == null ? 0 : saving.balance;
+                                double checkingBal = checking == null ? 0 : checking.balance;
+
+                                List<String> logs = FileLoaders.getUserLogs(stmtUser);
+
+                                fileMethods.generateStatement(stmtUser, savingBal, checkingBal, logs);
+
+                                System.out.println("PDF Generated for: " + stmtUser);
+                                break;
+
                             case 6:
                                 System.out.println("Exiting Admin Menu\n");
                                 break;
@@ -336,13 +399,16 @@ Customer Menu
                     break;
 
                 case 3:
+
                     System.out.println("Enter userName");
                     String customerUserName = input.nextLine();
+
                     System.out.println("Enter name");
                     String name = input.nextLine();
 
                     System.out.println("Enter Email");
                     String customerEmail = input.nextLine();
+
                     System.out.println("Enter Password");
                     String customerPassword = input.nextLine();
 
@@ -381,7 +447,36 @@ Customer Menu
                     fileMethods.saveCustomer(c1, "c.txt");
                     System.out.println("Thank you for creating an account.\n");
                     input.nextLine();
+
                     break;
+
+                case 4:
+
+                    System.out.println("Enter Admin Username");
+                    String aUser = input.nextLine();
+
+                    System.out.println("Enter Name");
+                    String aName = input.nextLine();
+
+                    System.out.println("Enter Email");
+                    String aEmail = input.nextLine();
+
+                    System.out.println("Enter Password");
+                    String aPass = input.nextLine();
+
+                    System.out.println("Enter CPR");
+                    long aCpr = Long.parseLong(input.nextLine());
+
+                    System.out.println("Enter DOB (yyyy-MM-dd)");
+                    LocalDate aDob = LocalDate.parse(input.nextLine());
+
+                    BankAdmin newAdmin = new BankAdmin(aUser, aName, aEmail, aPass, aCpr, aDob);
+                    admins.put(aUser, newAdmin);
+                    fileMethods.saveAdmin(newAdmin);
+
+                    System.out.println("Admin Created Successfully\n");
+                    break;
+
             }
         }
     }

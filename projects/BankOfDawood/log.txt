@@ -1,2 +1,10 @@
 DawoodRiaz Deposited90.0. Previous Balance :90.0 Current balance is:0.0 Date2025-12-06
 DawoodRiaz Deposited90000.0. Previous Balance :0.0 Current balance is:90000.0 Date 2025-12-06
+Dawood Deposited 80.0. Previous: 9000.0 Current: 9080.0 Date 2025-12-08
+Dawood Withdraw 10.0. Prev: 9080.0 Now: 9070.0 Date 2025-12-08
+Dawood Deposited 80.0. Previous: 7070.0 Current: 7150.0 Date 2025-12-08
+50.0 deposited.Prevous Balance :50.0 Current balance is:150.0
+50.0 deposited.Prevous Balance :50.0 Current balance is:150.0
+50.0 deposited.Prevous Balance :50.0 Current balance is:150.0
+50.0 deposited.Prevous Balance :50.0 Current balance is:150.0
+Dawood Withdraw 200.0. Prev: 7150.0 Now: 6950.0 Date 2025-12-10

@@ -14,7 +14,6 @@ public class BankOfDawood implements Bank {
 
     @Override
     public void createAccount(String UserName, String accountType, double initialDeposit) {
-
         accountType = accountType.toUpperCase();
 
         if (accounts.containsKey(UserName + "_" + accountType)) {
@@ -22,8 +21,8 @@ public class BankOfDawood implements Bank {
             return;
         }
 
-        Customer c = StartingPoint.customers.get(UserName);
-        if (c == null) {
+        Customer cus = StartingPoint.customers.get(UserName);
+        if (cus == null) {
             System.out.println("Customer not found.");
             return;
         }
@@ -32,13 +31,13 @@ public class BankOfDawood implements Bank {
 
         if (accountType.equals("SAVING")) {
             acc = new SavingAccount(UserName, initialDeposit);
-            c.setSavingCard(new StandardMastercard());
-            c.setSavingAccount(acc); // FIXED
+            cus.setSavingCard(new StandardMastercard());
+            cus.setSavingAccount(acc);
 
         } else if (accountType.equals("CHECKING")) {
             acc = new CheckingAccount(UserName, initialDeposit);
-            c.setCheckingCard(new StandardMastercard());
-            c.setCheckingAccount(acc); // FIXED
+            cus.setCheckingCard(new StandardMastercard());
+            cus.setCheckingAccount(acc);
 
         } else {
             System.out.println("Invalid account type.");
@@ -47,7 +46,7 @@ public class BankOfDawood implements Bank {
 
         accounts.put(UserName + "_" + accountType, acc);
 
-        fileMethods.saveCustomer(c, "c.txt");
+        fileMethods.saveCustomer(cus, "c.txt");
 
         if (acc instanceof CheckingAccount ch) {
             fileMethods.saveAccounts(UserName + "_CHECKING", acc.balance, ch.getOverdraftCount(), ch.isActive());
@@ -108,13 +107,19 @@ public class BankOfDawood implements Bank {
         fileMethods.log(userName + " Deposited " + amt + ". Previous: "
                 + preBalance + " Current: " + acc.balance + " Date " + timeNow);
 
+        fileMethods.logStream(
+                userName + "|" +
+                        "Deposited " + amt + " BHD on " + timeNow +
+                        " Previous: " + preBalance + " | Current: " + acc.balance + "."
+        );
+
+
         if (acc instanceof CheckingAccount ch) {
             fileMethods.updateBalanceInFile(userName + "_CHECKING",
                     acc.balance, ch.getOverdraftCount(), ch.isActive());
         } else {
             fileMethods.updateBalanceInFile(userName + "_SAVING", acc.balance, 0, true);
         }
-
         fileMethods.saveCardUsage(userName, card);
     }
 
@@ -211,17 +216,26 @@ public class BankOfDawood implements Bank {
         fileMethods.log(userName + " Withdraw " + amt + ". Prev: "
                 + preBalance + " Now: " + acc.balance + " Date " + timeNow);
 
+
+
+        fileMethods.logStream(
+                userName + "|" +
+                        "Withdrawn " + amt + " bhd on " + timeNow +
+                        " (Previous: " + preBalance + " | Current: " + acc.balance + ")"
+        );
+
+
         System.out.println("Withdraw Successful. Balance = " + acc.balance);
     }
 
     public void filterTransactions(String userName) {
         Scanner sc = new Scanner(System.in);
         System.out.println("\nSelect logs to filter4");
-        System.out.println("1. Today");
-        System.out.println("2. Yesterday");
-        System.out.println("3. Last 7 Days");
-        System.out.println("4. Last 30 Days");
-        System.out.println("5. Custom Date Range (yyyy-MM-dd)");
+        System.out.println("1. today");
+        System.out.println("2. yesterday");
+        System.out.println("3. Last 7 days");
+        System.out.println("4. Last 30 Ddays");
+        System.out.println("5. custom date range (yyyy-MM-dd)");
         System.out.println("6. Exit");
 
         int choice = Integer.parseInt(sc.nextLine());
@@ -280,16 +294,16 @@ public class BankOfDawood implements Bank {
                 String[] parts = line.split("Date");
                 if (parts.length < 2) continue;
 
-                String rawDate = parts[1].trim();  // e.g. "2025-01-03"
+                String rawDate = parts[1].trim();
 
                 LocalDate entryDate;
                 try {
                     entryDate = LocalDate.parse(rawDate);
                 } catch (Exception e) {
-                    continue; // skip bad row
+                    continue;
                 }
 
-                // Check if within range
+
                 if ((entryDate.isEqual(start) || entryDate.isAfter(start)) &&
                         (entryDate.isEqual(end) || entryDate.isBefore(end))) {
 
@@ -301,7 +315,7 @@ public class BankOfDawood implements Bank {
             System.out.println("Error filtering: " + e.getMessage());
         }
 
-        System.out.println("==================================\n");
+        System.out.println("======BANK OF DAWOOD STATEMENT======\n");
     }
     @Override
     public double checkBalance(String userName) {
@@ -339,8 +353,8 @@ public class BankOfDawood implements Bank {
     public void transferMoney(String userName) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("1: Saving → Checking");
-        System.out.println("2: Checking → Saving");
+        System.out.println("1: Saving to Checking");
+        System.out.println("2: Checking to Saving");
         int ch = Integer.parseInt(sc.nextLine());
 
         String fromType = (ch == 1) ? "SAVING" : "CHECKING";
@@ -354,36 +368,50 @@ public class BankOfDawood implements Bank {
             return;
         }
 
-        System.out.println("Amount?");
-        double amt = Double.parseDouble(sc.nextLine());
+        System.out.println("Enter Amount");
+        double amount = Double.parseDouble(sc.nextLine());
 
         Customer c = StartingPoint.customers.get(userName);
         Card card = fromType.equals("SAVING") ? c.getSavingCard() : c.getCheckingCard();
 
-        if (!card.canTransferOwn(amt)) {
+        if (!card.canTransferOwn(amount)) {
             System.out.println("Transfer limit exceeded.");
             return;
         }
 
-        if (from.balance < amt) {
+        if (from.balance < amount) {
             System.out.println("Insufficient funds.");
             return;
         }
 
-        from.balance -= amt;
-        to.balance += amt;
+        from.balance -= amount;
+        to.balance += amount;
 
-        card.recordTransferOwn(amt);
+        card.recordTransferOwn(amount);
 
-        if (from instanceof CheckingAccount x)
+        if (from instanceof CheckingAccount x) {
             fileMethods.updateBalanceInFile(userName + "_CHECKING", from.balance, x.getOverdraftCount(), x.isActive());
-        else
+        }
+        else {
             fileMethods.updateBalanceInFile(userName + "_SAVING", from.balance, 0, true);
-
-        if (to instanceof CheckingAccount y)
+        }
+        if (to instanceof CheckingAccount y) {
             fileMethods.updateBalanceInFile(userName + "_CHECKING", to.balance, y.getOverdraftCount(), y.isActive());
-        else
+        }
+        else {
             fileMethods.updateBalanceInFile(userName + "_SAVING", to.balance, 0, true);
+        }
+
+        fileMethods.logStream(
+                userName + "|" +
+                        "Transferred " + amount + " BHD from " + fromType + " to " + toType +
+                        " on " + timeNow +
+                        " New " + toType + " Balance: " + to.balance + "."
+        );
+
+
+
+
 
         System.out.println("Transfer Successful");
     }
@@ -393,7 +421,7 @@ public class BankOfDawood implements Bank {
     public void tansferToOther(String userName) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("From Account (SAVING / CHECKING)");
+        System.out.println("From Account . saving checking");
         String fromType = sc.nextLine().toUpperCase();
 
         Account from = accounts.get(userName + "_" + fromType);
@@ -405,7 +433,7 @@ public class BankOfDawood implements Bank {
         System.out.println("Receiver Name:");
         String rec = sc.nextLine();
 
-        System.out.println("Receiver Account Type (SAVING / CHECKING)");
+        System.out.println("Receiver Account Type .saving checking)");
         String toType = sc.nextLine().toUpperCase();
 
         Account to = accounts.get(rec + "_" + toType);
@@ -415,7 +443,7 @@ public class BankOfDawood implements Bank {
             return;
         }
 
-        System.out.println("Amount?");
+        System.out.println("Enter Amout");
         double amt = Double.parseDouble(sc.nextLine());
 
         Customer c = StartingPoint.customers.get(userName);
@@ -445,6 +473,11 @@ public class BankOfDawood implements Bank {
             fileMethods.updateBalanceInFile(rec + "_CHECKING", to.balance, y.getOverdraftCount(), y.isActive());
         else
             fileMethods.updateBalanceInFile(rec + "_SAVING", to.balance, 0, true);
+        fileMethods.logStream(
+                userName + "|" +
+                        "Sent " + amt + " BHD to " + rec + " (" + toType + ") on " + timeNow +
+                        " Your New Balance: " + from.balance + "/"
+        );
 
         System.out.println("Transfer Successful.");
     }
@@ -476,20 +509,36 @@ public class BankOfDawood implements Bank {
         System.out.println("3: Standard");
 
         int cardChoice = Integer.parseInt(sc.nextLine());
-        Card newCard = switch (cardChoice) {
-            case 1 -> new PlatinumCard();
-            case 2 -> new TitaniumCard();
-            case 3 -> new StandardMastercard();
-            default -> null;
-        };
+        Card newCard = null;
+
+        switch (cardChoice) {
+            case 1:
+                newCard = new PlatinumCard();
+                break;
+
+            case 2:
+                newCard = new TitaniumCard();
+                break;
+
+            case 3:
+                newCard = new StandardMastercard();
+                break;
+
+            default:
+                newCard = null;
+                break;
+        }
+
 
         if (newCard == null) {
             System.out.println("Invalid card.");
             return;
         }
 
-        if (type == 1) c.setSavingCard(newCard);
-        if (type == 2) c.setCheckingCard(newCard);
+        if (type == 1){
+            c.setSavingCard(newCard);};
+        if (type == 2)
+        {c.setCheckingCard(newCard);};
 
         fileMethods.saveCustomer(c, "c.txt");
 
@@ -527,22 +576,24 @@ public class BankOfDawood implements Bank {
         System.out.println("----- TRANSACTIONS -----");
         fileMethods.printLogFile(userName, "log.txt");
     }
+
+
     public void showMyCards(String userName) {
         Customer c = StartingPoint.customers.get(userName);
 
         System.out.println("\n====== YOUR CARD DETAILS ======");
 
         String savingCard = (c.getSavingCard() == null)
-                ? "NO CARD / NO SAVING ACCOUNT"
+                ? "no card or saving account"
                 : c.getSavingCard().cardType;
 
         String checkingCard = (c.getCheckingCard() == null)
-                ? "NO CARD / NO CHECKING ACCOUNT"
+                ? "no card or checking account"
                 : c.getCheckingCard().cardType;
 
-        System.out.println("Saving Account Card   : " + savingCard);
-        System.out.println("Checking Account Card : " + checkingCard);
+        System.out.println("saving account card   : " + savingCard);
+        System.out.println("checking account card : " + checkingCard);
 
-        System.out.println("================================\n");
+        System.out.println("===========================\n");
     }
 }

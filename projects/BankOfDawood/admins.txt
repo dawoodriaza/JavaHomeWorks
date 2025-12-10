@@ -1,0 +1,2 @@
+username,name,email,password,cpr,dob
+Dwood,990806570,990806570@gmail.com,990806570,990806570,1999-08-11

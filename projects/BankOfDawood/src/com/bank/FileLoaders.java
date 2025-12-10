@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.bank.StartingPoint.customers;
 import static com.bank.StartingPoint.loadedAccounts;
@@ -171,6 +173,25 @@ public class FileLoaders {
         }
     }
 
+    public static List<String> getUserLogs(String userName) {
+        List<String> list = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader("log.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+
+                if (line.startsWith(userName)) {
+                    // remove username from start
+                    String cleaned = line.replaceFirst(userName, "").trim();
+                    list.add(cleaned);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error reading logs: " + e.getMessage());
+        }
+
+        return list;
+    }
 
     public static void loadOverdraftData() {
         for (String name : loadedAccounts.keySet()) {
@@ -182,4 +203,47 @@ public class FileLoaders {
             }
         }
     }
+
+    public static void loadAdmins() {
+        File file = new File("admins.txt");
+
+        if (!file.exists() || file.length() == 0) {
+            System.out.println("No admin file found.");
+            return;
+        }
+
+        try {
+            Files.lines(file.toPath())
+                    .skip(1)
+                    .filter(line -> !line.trim().isEmpty())
+                    .forEach(line -> {
+                        try {
+                            String[] p = line.split(",");
+
+                            String userName = p[0].trim();
+                            String name = p[1].trim();
+                            String email = p[2].trim();
+                            String password = p[3].trim();
+                            long cpr = Long.parseLong(p[4].trim());
+                            LocalDate dob = LocalDate.parse(p[5].trim());
+
+                            BankAdmin admin = new BankAdmin(
+                                    userName, name, email, password, cpr, dob
+                            );
+
+                            StartingPoint.admins.put(userName, admin);
+
+                        } catch (Exception e) {
+                            System.out.println("Invalid admin row skipped.");
+                        }
+                    });
+
+            System.out.println("Admins loaded successfully.");
+
+        } catch (Exception e) {
+            System.out.println("Error loading admins: " + e.getMessage());
+        }
+    }
+
+
 }

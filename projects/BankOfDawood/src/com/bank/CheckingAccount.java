@@ -37,7 +37,7 @@ class CheckingAccount extends Account {
     @Override
     public void withdraw(double amount) {
         if (balance - amount < -100) {
-            System.out.println("Overdraft limit exceeded!");
+            System.out.println("Overdraft limit exceeded");
             return;
         }
 

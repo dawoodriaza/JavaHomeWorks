@@ -1,2 +1,4 @@
 UserName , Name, Email , CPR , DateOfBirth , Password , SecretKey , InitialAmount , SavingCard , CheckingCard 
 DawoodRiaz,990806570,990806570,990806570,1999-08-11,jX23B0pCnzSzfrDowy0DGA==,WVCkDBHceV3echcct3jUNQ==,0.0,PlatinumCard,StandardMastercard
+Dawood,Riaz,Dawoodr@Gmail.com,990806570,1999-08-22,1uxU6+Uyjq7YuhLCbH0/cg==,Vg3D67eWSMJRKW6ZB/IrYQ==,0.0,noAccount,StandardMastercard
+hamza,hamza,hamza@gmail.com,99080670,1999-08-11,042N6ChaoKx68ZnHFrJ1Iw==,ypeVmIkKG0cuWyyIhYdKag==,0.0,StandardMastercard,StandardMastercard
