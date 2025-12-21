@@ -92,7 +92,8 @@ WHERE c.name = (
   LIMIT 1
 )
   AND ci.population BETWEEN 85000 AND 91000
-ORDER BY ci.population;
+ORDER BY ci.population
+limit 1;
 
 
--- She's in Brasília.
+-- She's in ï¿½guas Lindas de Goiï¿½s.
