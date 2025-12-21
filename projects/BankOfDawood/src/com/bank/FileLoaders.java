@@ -42,7 +42,7 @@ public class FileLoaders {
                             String[] p = line.split(",");
 
                             if (p.length < 10) {
-                                System.out.println("Skipping bad customer row: " + line);
+                                System.out.println("Skipping row line exists limt: " + line);
                                 return;
                             }
                             String userName = p[0].trim();

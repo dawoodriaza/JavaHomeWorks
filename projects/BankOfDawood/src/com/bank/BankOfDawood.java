@@ -433,7 +433,7 @@ public class BankOfDawood implements Bank {
         System.out.println("Receiver Name:");
         String rec = sc.nextLine();
 
-        System.out.println("Receiver Account Type .saving checking)");
+        System.out.println("Receiver account Type .saving checking)");
         String toType = sc.nextLine().toUpperCase();
 
         Account to = accounts.get(rec + "_" + toType);

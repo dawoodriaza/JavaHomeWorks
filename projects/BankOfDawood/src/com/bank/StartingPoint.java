@@ -31,6 +31,21 @@ public class StartingPoint {
         for (String key : loadedAccounts.keySet()) {
             bank.accounts.put(key, loadedAccounts.get(key));
         }
+        for (Map.Entry<String, Account> entry : loadedAccounts.entrySet()) {
+            String key = entry.getKey();
+            Account acc = entry.getValue();
+            String[] split = key.split("_");
+            String username = split[0];
+            String type = split[1];
+            Customer customer = customers.get(username);
+            if (customer != null) {
+                if (type.equals("CHECKING")) {
+                    customer.setCheckingAccount(acc);
+                } else if (type.equals("SAVING")) {
+                    customer.setSavingAccount(acc);
+                }
+            }
+        }
 
         System.out.println("loadedAccounts" + loadedAccounts);
 
