@@ -1,11 +1,9 @@
-package com.ga.food.controller;
+package com.ga.todoapp.controller;
 
-import com.ga.food.exception.InformationExistException;
-import com.ga.food.model.Category;
-import com.ga.food.repository.CategoryRepository;
-import com.ga.food.service.CategoryService;
+
+import com.ga.todoapp.model.Category;
+import com.ga.todoapp.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,28 +13,17 @@ import java.util.Optional;
 @RequestMapping(path="/api")
 public class CategoryController {
 
-
     private CategoryService categoryService;
-
     @Autowired
     public void setCategoryRepository(CategoryService categoryService){
         this.categoryService= categoryService;
-
     }
-
-    /* Our Aim is to complete Crud Operations
-     * - C - HTTP - POST - TO create a record(Category)
-     */
-
     @PostMapping("/categories/")
     public Category createCategory(@RequestBody Category categoryObject){
         System.out.println("Service Calling this method ==>");
         return categoryService.createCategory(categoryObject);
     }
 
-    /*
-    * - R - HTTP - GET -  To read all records(CategoryList)// or record by Id
-    */
 
     @GetMapping("/categories")
     public List<Category> getCategories(){
@@ -51,14 +38,10 @@ public class CategoryController {
         return categoryService.getCategory(categoryId);
     }
 
-
-
-
     @PutMapping("/categories/{categoryId}")
     public Optional<Category> updateCategory(
             @PathVariable Long categoryId,
             @RequestBody Category category) {
-
         return categoryService.updateCategory(categoryId, category);
     }
 
@@ -70,13 +53,6 @@ public class CategoryController {
     }
 
 
-
-
-
-    /*
-    * - U - HTTP - PUT - TO update record by id
-    * - D - HTTP -  DELETE - To delete a record
-    * */
 
 
 }

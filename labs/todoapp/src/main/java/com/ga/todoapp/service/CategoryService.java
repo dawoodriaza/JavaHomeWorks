@@ -1,10 +1,10 @@
-package com.ga.food.service;
+package com.ga.todoapp.service;
 
-import com.ga.food.exception.InformationExistException;
-import com.ga.food.model.Category;
-import com.ga.food.model.User;
-import com.ga.food.repository.CategoryRepository;
-import com.ga.food.security.MyUserDetails;
+import com.ga.todoapp.exception.InformationExistException;
+import com.ga.todoapp.model.Category;
+import com.ga.todoapp.model.User;
+import com.ga.todoapp.repository.CategoryRepository;
+import com.ga.todoapp.security.MyUserDetails;
 import org.aspectj.apache.bcel.generic.RET;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -100,7 +100,7 @@ public class CategoryService {
                         "Category with Id " + categoryId + " not found"
                 ));
         categoryExist.setName(category.getName());
-        categoryExist.setDiscription(category.getDiscription());
+        categoryExist.setDescription(category.getDescription());
         categoryExist.setUpdatedAt(LocalDateTime.now());
 
         return Optional.of(categoryRepository.save(categoryExist));

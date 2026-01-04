@@ -1,12 +1,12 @@
-package com.ga.food.controller;
+package com.ga.todoapp.controller;
 
-
-import com.ga.food.model.User;
-import com.ga.food.model.requestPackage.LoginRequest;
-import com.ga.food.service.UserService;
+import com.ga.todoapp.model.User;
+import com.ga.todoapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path="/auth/users")
@@ -26,12 +26,5 @@ public class UserController {
         return userService.createUser(userObject);
     }
 
-
-
-    @PostMapping("/login")
-        public ResponseEntity<?> LoginUser(@RequestBody LoginRequest loginRequest){
-        System.out.println("Calling LoginUser");
-        return userService.loginUser(loginRequest);
-    }
-
 }
+

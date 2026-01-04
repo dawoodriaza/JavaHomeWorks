@@ -1,6 +1,6 @@
-package com.ga.food.security;
+package com.ga.todoapp.security;
 
-import com.ga.food.model.User;
+import com.ga.todoapp.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;

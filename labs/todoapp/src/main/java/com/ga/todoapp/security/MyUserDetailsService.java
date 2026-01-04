@@ -1,7 +1,7 @@
-package com.ga.food.security;
+package com.ga.todoapp.security;
 
-import com.ga.food.model.User;
-import com.ga.food.repository.UserRepository;
+import com.ga.todoapp.model.User;
+import com.ga.todoapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;

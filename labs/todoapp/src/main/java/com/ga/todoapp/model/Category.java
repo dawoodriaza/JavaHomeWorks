@@ -1,37 +1,33 @@
-package com.ga.food.model;
+package com.ga.todoapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter @Setter
 @ToString
-@Getter
-@Setter
 @Entity
-@Table(name = "categories")
+@Table(name="Category")
 public class Category {
-
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Long id;
 
     @Column
     private String name;
 
     @Column
-    private String discription;
+    private String description;
 
-    @Column(updatable = false)
+    @Column
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -40,20 +36,11 @@ public class Category {
     private LocalDateTime updatedAt;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "category", orphanRemoval = true)
-    private List<Recipe> recipeList;
+    private List<Item> itemList;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnore
-    @Getter @Setter private User user;
+    private User user;
 
-
-    //    @Override
-//    public String toString() {
-//        return "Category{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", discription='" + discription + '\'' +
-//                '}';
-//    }
 }

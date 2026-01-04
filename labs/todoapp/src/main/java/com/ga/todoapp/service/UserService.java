@@ -1,12 +1,12 @@
-package com.ga.food.service;
+package com.ga.todoapp.service;
 
-import com.ga.food.exception.InformationExistException;
-import com.ga.food.model.User;
-import com.ga.food.model.requestPackage.LoginRequest;
-import com.ga.food.model.response.LoginResponse;
-import com.ga.food.repository.UserRepository;
-import com.ga.food.security.JWTUtils;
-import com.ga.food.security.MyUserDetails;
+import com.ga.todoapp.exception.InformationExistException;
+import com.ga.todoapp.model.User;
+import com.ga.todoapp.model.requestPackage.LoginRequest;
+import com.ga.todoapp.model.response.LoginResponse;
+import com.ga.todoapp.repository.UserRepository;
+import com.ga.todoapp.security.JWTUtils;
+import com.ga.todoapp.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -47,7 +47,7 @@ public class UserService {
         }
     }
 
-    // Login user
+
     public ResponseEntity<?> loginUser(LoginRequest loginRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(

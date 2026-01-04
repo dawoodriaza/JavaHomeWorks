@@ -1,6 +1,6 @@
-package com.ga.food.repository;
+package com.ga.todoapp.repository;
 
-import com.ga.food.model.User;
+import com.ga.todoapp.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmailAddress(String userEmailAddress);
     User findUserByEmailAddress(String userEmailAddress);
+
+
 }
