@@ -1,17 +1,18 @@
 package com.example.concurrency.Model;
 
 
-import java.time.LocalDate;
+
+import java.util.Date;
 
 public class Employee {
 
     private String name;
     private double salary;
-    private LocalDate joinedDate;
+    private Date joinedDate;
     private String role;
     private double projectPercent;
 
-    public Employee(String name, double salary, LocalDate joinedDate, String role, double projectPercent) {
+    public Employee(String name, double salary, Date joinedDate, String role, double projectPercent) {
         this.name = name;
         this.salary = salary;
         this.joinedDate = joinedDate;
@@ -28,7 +29,7 @@ public class Employee {
     public void setSalary(double salary) {
         this.salary = salary;
     }
-    public LocalDate getJoinedDate() {
+    public Date getJoinedDate() {
         return joinedDate;
     }
     public String getRole() {
