@@ -8,10 +8,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+@Service
 public class SalaryProcessorService {
 
     private final Semaphore semaphore = new Semaphore(3);
@@ -84,6 +84,4 @@ public class SalaryProcessorService {
             semaphore.release();
         }
     }
-
-
 }
